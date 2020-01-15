@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\v1\UserResource;
 use App\Http\Resources\v1\UserResourceCollection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 use App\User;
 
@@ -27,6 +28,8 @@ class UserController extends Controller
             'username'      => 'required',
             'password'      => 'required'
         ]);
+
+        $request->password = Hash::make($request->password);
 
         $user = User::create($request->all());
 

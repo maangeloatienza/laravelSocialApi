@@ -4,9 +4,12 @@ namespace App;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Notifications\Notifiable;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable
+
+class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
@@ -39,6 +42,31 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @inheritDoc
+     */
+    public function getJWTIdentifier()
+    {
+        // TODO: Implement getJWTIdentifier() method.
+        return $this->getKey();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function getJWTCustomClaims()
+    {
+        // TODO: Implement getJWTCustomClaims() method.
+        return [];
+    }
+
+    public function setPasswordAttribute($password)
+    {
+        if ( !empty($password) ) {
+            $this->attributes['password'] = bcrypt($password);
+        }
+    }
 
     public function comments(){
         return $this->hasMany('App\Comment');
