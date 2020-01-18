@@ -20,12 +20,24 @@
                     <li>
                         <router-link to='/'>Home</router-link>
                     </li>
-                    <li>
-                        <router-link to='/'>Profile</router-link>
+                    <li v-show="navProperties.isLoggedin">
+                        <router-link to='/profile'>
+                            Profile
+                        </router-link>
                     </li>
-                    <li>
-                        <router-link to='/'>
-                            {{navProperties.isLoggedIn ? 'Logout' : 'Login'}}
+                    <li v-show="!navProperties.isLoggedin">
+                        <router-link to='/register'>
+                            Register
+                        </router-link>
+                    </li>
+                    <li v-show="navProperties.isLoggedin">
+                        <router-link to='/logout'>
+                            Logout
+                        </router-link>
+                    </li>
+                    <li v-show="!navProperties.isLoggedin">
+                        <router-link :to="{name : 'login'}">
+                            Login
                         </router-link>
                     </li>
                 </ul>
@@ -41,7 +53,7 @@ export default {
         return {
             navProperties : {
                 navSearch : 'Gelo',
-                isLoggedIn : true
+                isLoggedIn : localStorage.user ? true : false
 
             },
         }
@@ -53,16 +65,18 @@ export default {
     nav {
         display: grid;
         grid-template-columns : 2fr 4fr 3fr;
-        grid-column-gap : 1em;
+        grid-gap: 1em;
         height: 40px !important;
     }
 
+    ul {
+        text-decoration: none;
+    }
     ul li {
         display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
         list-style: none;
-        text-decoration: none;
         float: left;
+        width: 33%;
     }
 
     input[type="text"] {
@@ -73,6 +87,7 @@ export default {
         margin-left: -50px;
     }
 
+    /* Checking */
     nav :nth-child(odd){
         background-color: gray;
     }

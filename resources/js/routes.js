@@ -1,16 +1,19 @@
-import Vue from 'vue';
-import VueRouter from 'vue-router';
+
 
 import ContentBody from './components/body/Body';
+import Login from './components/forms/login/Login';
 
-Vue.use(VueRouter);
+export default [
+    {
+        path: '/',
+        component: ContentBody,
 
-export default new VueRouter({
-    mode : 'history',
-    routes : [
-        {
-            path : '/',
-            component : ContentBody
-        }
-    ]
-});
+    },
+    {
+        path : '/login',
+        name : 'login',
+        component : Login
+    }
+
+
+];

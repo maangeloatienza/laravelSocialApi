@@ -8,6 +8,9 @@
                 <nav-sidebar></nav-sidebar>
             </div>
         </div>
+        <div>
+            <router-view></router-view>
+        </div>
     </div>
 </template>
 
