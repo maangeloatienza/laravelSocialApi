@@ -1,16 +1,17 @@
 <template>
-    <div id='wrapper'>
-
+    <div >
+        <app-content></app-content>
+        <router-view></router-view>
     </div>
 </template>
 
 
 <script>
-import NavHeader from './components/header/Header'
+import Content from './components/content/Content'
 
 export default {
     components : {
-        'nav-header' : NavHeader
+        'app-content' : Content
     }
 }
 
@@ -25,4 +26,5 @@ export default {
         grid-auto-rows: minmax(100px,auto);
         grid-column-gap : 1em;
     }
+
 </style>

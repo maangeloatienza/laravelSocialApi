@@ -19337,7 +19337,7 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /var/www/html/vue-lara/resources/js/bootstrap.js */"./resources/js/bootstrap.js");
+module.exports = __webpack_require__(/*! /var/www/html/laravelSocialApi/resources/js/bootstrap.js */"./resources/js/bootstrap.js");
 
 
 /***/ })

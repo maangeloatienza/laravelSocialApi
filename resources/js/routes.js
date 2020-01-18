@@ -1,16 +1,16 @@
 import Vue from 'vue';
-import Router from 'vue-router';
+import VueRouter from 'vue-router';
 
+import ContentBody from './components/body/Body';
 
-Vue.use(Router);
+Vue.use(VueRouter);
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-
-    },
-
-  ],
-  mode : 'history'
-})
+export default new VueRouter({
+    mode : 'history',
+    routes : [
+        {
+            path : '/',
+            component : ContentBody
+        }
+    ]
+});
