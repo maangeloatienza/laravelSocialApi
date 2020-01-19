@@ -1,16 +1,16 @@
 <template>
-    <div >
-        <app-content></app-content>
+    <div id="main">
+        <Homepage></Homepage>
+        <router-view></router-view>
     </div>
 </template>
 
 
 <script>
-import Content from './components/content/Content'
-
+import Homepage from './views/homepage';
 export default {
     components : {
-        'app-content' : Content
+        Homepage
     }
 }
 
@@ -18,12 +18,5 @@ export default {
 
 
 <style >
-    #wrapper {
-        display: grid;
-        /* grid-template-columns : 1fr 3fr 2fr; */
-        grid-template-columns : repeat(3, 1fr 3fr 1fr);
-        grid-auto-rows: minmax(100px,auto);
-        grid-column-gap : 1em;
-    }
 
 </style>
