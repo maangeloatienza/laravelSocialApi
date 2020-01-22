@@ -3,7 +3,8 @@ import Homepage from './views/homepage';
 
 export default [
     {
-        path: '/',
+        path: '/home',
         name : 'home',
+        component : Homepage
     }
 ];

@@ -1,22 +1,58 @@
 <template>
-    <div>
+    <div id='content-body'>
         <div class="container">
-            <PostForm></PostForm>
-            <router-view></router-view>
+            <div class='row'>
+                <PostForm
+                    v-bind:posts='posts'
+                    v-bind:getPosts = 'getPosts'
+                >
+                </PostForm>
+                <Post
+                    v-bind:posts='posts'
+                    v-bind:getPosts = 'getPosts'
+                ></Post>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 import PostForm from './../components/postForm';
+import Post from './../components/post';
 
 export default {
+
     components : {
-        PostForm
+        PostForm,
+        Post
+    },
+    data (){
+        return {
+            posts : []
+        }
+    },
+
+    methods : {
+        getPosts : function(){
+            axios
+            .get('post')
+            .then((response)=>{
+                let data = response.data.data;
+                this.posts = data;
+            })
+            .catch((error)=>{
+                console.log(error);
+            });
+        }
+    },
+    created : function (){
+        this.getPosts();
     }
 }
 </script>
 
-<style lang="stylus" scoped>
-
+<style  scoped>
+    #content-body {
+         padding-top: 40px;
+    }
 </style>

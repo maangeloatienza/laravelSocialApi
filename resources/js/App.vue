@@ -18,5 +18,9 @@ export default {
 
 
 <style >
+    .comment{
+        display: block;
+        list-style: none;
+    }
 
 </style>

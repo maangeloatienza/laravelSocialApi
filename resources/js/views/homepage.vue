@@ -3,18 +3,21 @@
         <div>
             <Navbar></Navbar>
             <Post></Post>
+            <Login></Login>
         </div>
     </div>
 </template>
 
 <script>
 import Navbar from './../components/navbar';
+import Login from './../components/loginForm';
 import Post from './postview';
 
 export default {
     components : {
         Navbar,
-        Post
+        Post,
+        Login
     },
     data() {
         return {

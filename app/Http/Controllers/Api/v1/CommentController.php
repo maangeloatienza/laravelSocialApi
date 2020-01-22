@@ -56,7 +56,7 @@ class CommentController extends Controller
             'comment' => 'required'
         ]);
 
-        $comment = Comment::create($request);
+        $comment = Comment::create($request->all());
 
         return new CommentResource($comment);
     }
