@@ -23,7 +23,7 @@
 
                     <div slot='formControl'>
                         <button
-                            type="submit"
+                            type="button"
                             class='form-control btn btn-info'
                             v-on:click='handleSubmit'
                             >
@@ -60,9 +60,16 @@ export default {
                 .post('login',this.user)
                 .then((response)=>{
                     console.log(response.data);
-                    let data = response.data
+                    let data = response.data;
+
+
                     localStorage.setItem('token', data.access_token);
                     localStorage.setItem('user', JSON.stringify(data.data));
+
+                    if(localStorage.getItem('token')!=null){
+                        this.$router.go('/')
+                    }
+
 
                 })
                 .catch((error)=>{

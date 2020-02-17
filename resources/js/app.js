@@ -20,9 +20,12 @@ global.jQuery = require('jquery');
 Vue.use(VueRouter);
 Vue.use(VueResource);
 
+export const bus = new Vue();
+
+
 Vue.http.options.root = 'http://localhost:8000/api/v1/';
 
-axios.defaults.baseURL = 'http://localhost:8000/api/v1/';
+axios.defaults.baseURL = 'http://localhost:8001/api/v1/';
 axios.defaults.headers.common['Authorization'] = `bearer ${localStorage.token ? localStorage.token : ''}`;
 axios.defaults.headers.post['Content-Type'] = 'application/json';
 

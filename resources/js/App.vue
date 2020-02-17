@@ -1,16 +1,23 @@
 <template>
     <div id="main">
-        <Homepage></Homepage>
+        <Navbar></Navbar>
         <router-view></router-view>
+        <Login></Login>
     </div>
 </template>
 
 
 <script>
-import Homepage from './views/homepage';
+
+import Login from './components/loginForm';
+import Navbar from './components/navbar';
+import Post from './views/postview';
+
 export default {
     components : {
-        Homepage
+        Login,
+        Post,
+        Navbar
     }
 }
 

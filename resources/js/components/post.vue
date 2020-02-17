@@ -39,7 +39,7 @@
                                             <input type="text" v-model='comment.comment' class='form-control'>
                                         </div>
                                         <button
-                                            type='submit'
+                                            type='button'
                                             class='form-control btn btn-sm btn-success mb-2 mx-2'
                                             v-on:click.prevent="handleSubmitComment(post.id)">
                                             Add comment
@@ -53,33 +53,85 @@
                                 v-for='comment in post.comments'
                                 :key='comment.id'>
                                 <div class='row'>
-                                    <div class='col'>
-                                        <small>
+                                    <div class='col-12'>
+                                        <h5>
                                             {{comment.user.first_name + ' ' +comment.user.last_name}}
-                                        </small>
+                                        </h5>
                                     </div>
-                                    <div class='col'>
-                                        <small>
+                                    <div class='col-12'>
+                                        <p>
                                             {{comment.comment}}
-                                        </small>
+                                        </p>
+
                                     </div>
 
-                                </div>
+                                    <div class='row col-12'>
+                                        <div class='container'>
+                                            <button
+                                                type="button"
+                                                class="btn btn-sm btn-link"
+                                                data-toggle="collapse"
+                                                :data-target="`#subCommentSection${comment.id}`"
+                                                aria-expanded="false"
+                                                :aria-controls="`subCommentSection${comment.id}`"
+                                                >
+                                                Reply
+                                            </button>
+                                        </div>
+                                    </div>
 
+                                    <!-- Comment reply -->
+                                    <div class='row collapse ' data-collapse='#accordionCommentParent' v-bind:id="`subCommentSection${comment.id}`">
+                                        <div class="container">
+                                            <div class='mb-1'>
+                                                <CustomForm>
+                                                    <div slot='formField' class='form-inline'>
+                                                        <div class="form-group mb-2">
+                                                            <input type="text" v-model='sub_comment.sub_comment' class='form-control'>
+                                                        </div>
+                                                        <button
+                                                            type='button'
+                                                            class='form-control btn btn-sm btn-success mb-2 mx-2'
+                                                            v-on:click.prevent="handleSubmitSubComment(comment.id)">
+                                                            Send reply
+                                                        </button>
+                                                    </div>
+                                                </CustomForm>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- subcomment -->
+                                    <div
+                                        class='container card card-body'
+                                        v-for='sub_comment in comment.sub_comments'
+                                        :key='sub_comment.id'>
+                                        <div class='row'>
+                                            <div class='col-12'>
+                                                <h5>
+                                                    {{sub_comment.user.first_name + ' ' +sub_comment.user.last_name}}
+                                                </h5>
+                                            </div>
+                                            <div class='col-12'>
+                                                <p>
+                                                    {{sub_comment.sub_comment}}
+                                                </p>
+
+                                            </div>
+                                        </div>
+                                    </div>
                             </div>
                         </div>
 
 
-                    <small class="text-muted"></small>
+                            <small class="text-muted"></small>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
 
-
     </div>
-
-
 </template>
 
 <script>
@@ -91,7 +143,7 @@ import PostForm from './postForm';
 export default {
     props : {
         posts : {type : Array},
-        getPosts : {type : Function}
+        getPosts : {type : Function},
     },
     components : {
         CustomForm,
@@ -104,6 +156,12 @@ export default {
                 user_id : null,
                 comment : null
             },
+            sub_comment : {
+                comment_id : null,
+                user_id : null,
+                sub_comment : null
+
+            }
         }
     },
     methods : {
@@ -124,12 +182,35 @@ export default {
             .catch((error)=>{
                 console.log(error);
             });
+        },
+        handleSubmitSubComment : function(commentId){
+            let user = JSON.parse(localStorage.getItem('user'));
+            this.sub_comment.user_id = user.id;
+            this.sub_comment.comment_id = commentId;
+
+            axios
+            .post('subcomment',
+                this.sub_comment
+            )
+            .then((response)=>{
+                this.getPosts();
+                this.sub_comment.sub_comment = '';
+            })
+            .catch((error)=>{
+                console.log(error);
+            });
         }
     },
-    created() {
-        console.log('beforeUpdate!')
-        this.getPosts();
-    },
+    // created() {
+    //     console.log('beforeUpdate!')
+    //     this.getPosts();
+    // },
+    watch : {
+        getPosts : {
+            handler : 'getPosts',
+            immediate : true
+        }
+    }
 
 }
 </script>

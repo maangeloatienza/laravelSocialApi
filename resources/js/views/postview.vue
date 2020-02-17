@@ -34,19 +34,24 @@ export default {
 
     methods : {
         getPosts : function(){
+
             axios
             .get('post')
             .then((response)=>{
                 let data = response.data.data;
                 this.posts = data;
+
             })
             .catch((error)=>{
                 console.log(error);
             });
         }
     },
-    created : function (){
-        this.getPosts();
+    watch : {
+        addPost : {
+            handler : 'getPosts',
+            immediate : true
+        }
     }
 }
 </script>

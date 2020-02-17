@@ -1932,7 +1932,10 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _views_homepage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./views/homepage */ "./resources/js/views/homepage.vue");
+/* harmony import */ var _components_loginForm__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/loginForm */ "./resources/js/components/loginForm.vue");
+/* harmony import */ var _components_navbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/navbar */ "./resources/js/components/navbar.vue");
+/* harmony import */ var _views_postview__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/postview */ "./resources/js/views/postview.vue");
+//
 //
 //
 //
@@ -1942,9 +1945,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    Homepage: _views_homepage__WEBPACK_IMPORTED_MODULE_0__["default"]
+    Login: _components_loginForm__WEBPACK_IMPORTED_MODULE_0__["default"],
+    Post: _views_postview__WEBPACK_IMPORTED_MODULE_2__["default"],
+    Navbar: _components_navbar__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -2016,11 +2023,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     handleSubmit: function handleSubmit() {
+      var _this = this;
+
       axios.post('login', this.user).then(function (response) {
         console.log(response.data);
         var data = response.data;
         localStorage.setItem('token', data.access_token);
         localStorage.setItem('user', JSON.stringify(data.data));
+
+        if (localStorage.getItem('token') != null) {
+          _this.$router.go('/');
+        }
       })["catch"](function (error) {
         console.log(error);
       });
@@ -2080,6 +2093,9 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
 //
 //
 //
@@ -2252,6 +2268,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2274,6 +2342,11 @@ __webpack_require__.r(__webpack_exports__);
         post_id: null,
         user_id: null,
         comment: null
+      },
+      sub_comment: {
+        comment_id: null,
+        user_id: null,
+        sub_comment: null
       }
     };
   },
@@ -2291,11 +2364,31 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (error) {
         console.log(error);
       });
+    },
+    handleSubmitSubComment: function handleSubmitSubComment(commentId) {
+      var _this2 = this;
+
+      var user = JSON.parse(localStorage.getItem('user'));
+      this.sub_comment.user_id = user.id;
+      this.sub_comment.comment_id = commentId;
+      axios.post('subcomment', this.sub_comment).then(function (response) {
+        _this2.getPosts();
+
+        _this2.sub_comment.sub_comment = '';
+      })["catch"](function (error) {
+        console.log(error);
+      });
     }
   },
-  created: function created() {
-    console.log('beforeUpdate!');
-    this.getPosts();
+  // created() {
+  //     console.log('beforeUpdate!')
+  //     this.getPosts();
+  // },
+  watch: {
+    getPosts: {
+      handler: 'getPosts',
+      immediate: true
+    }
   }
 });
 
@@ -2384,8 +2477,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_navbar__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../components/navbar */ "./resources/js/components/navbar.vue");
-/* harmony import */ var _components_loginForm__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../components/loginForm */ "./resources/js/components/loginForm.vue");
-/* harmony import */ var _postview__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./postview */ "./resources/js/views/postview.vue");
+/* harmony import */ var _postview__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./postview */ "./resources/js/views/postview.vue");
 //
 //
 //
@@ -2393,17 +2485,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     Navbar: _components_navbar__WEBPACK_IMPORTED_MODULE_0__["default"],
-    Post: _postview__WEBPACK_IMPORTED_MODULE_2__["default"],
-    Login: _components_loginForm__WEBPACK_IMPORTED_MODULE_1__["default"]
+    Post: _postview__WEBPACK_IMPORTED_MODULE_1__["default"] // Login
+
   },
   data: function data() {
     return {
@@ -2467,8 +2555,11 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  created: function created() {
-    this.getPosts();
+  watch: {
+    addPost: {
+      handler: 'getPosts',
+      immediate: true
+    }
   }
 });
 
@@ -38688,7 +38779,7 @@ var render = function() {
   return _c(
     "div",
     { attrs: { id: "main" } },
-    [_c("Homepage"), _vm._v(" "), _c("router-view")],
+    [_c("Navbar"), _vm._v(" "), _c("router-view"), _vm._v(" "), _c("Login")],
     1
   )
 }
@@ -38823,7 +38914,7 @@ var render = function() {
                     "button",
                     {
                       staticClass: "form-control btn btn-info",
-                      attrs: { type: "submit" },
+                      attrs: { type: "button" },
                       on: { click: _vm.handleSubmit }
                     },
                     [
@@ -39001,7 +39092,7 @@ var render = function() {
                           "router-link",
                           {
                             staticClass: "nav-link text-white",
-                            attrs: { to: "" }
+                            attrs: { to: "/post" }
                           },
                           [_vm._v("Profile")]
                         )
@@ -39031,6 +39122,7 @@ var render = function() {
                             {
                               staticClass: "nav-link btn btn-link text-white",
                               attrs: {
+                                type: "button",
                                 "data-toggle": "modal",
                                 "data-target": "#authenticationModal"
                               }
@@ -39216,7 +39308,7 @@ var render = function() {
                                 {
                                   staticClass:
                                     "form-control btn btn-sm btn-success mb-2 mx-2",
-                                  attrs: { type: "submit" },
+                                  attrs: { type: "button" },
                                   on: {
                                     click: function($event) {
                                       $event.preventDefault()
@@ -39245,39 +39337,207 @@ var render = function() {
                           staticClass: "container card card-body"
                         },
                         [
-                          _c("div", { staticClass: "row" }, [
-                            _c("div", { staticClass: "col" }, [
-                              _c("small", [
-                                _vm._v(
-                                  "\n                                        " +
-                                    _vm._s(
-                                      comment.user.first_name +
-                                        " " +
-                                        comment.user.last_name
-                                    ) +
-                                    "\n                                    "
+                          _c(
+                            "div",
+                            { staticClass: "row" },
+                            [
+                              _c("div", { staticClass: "col-12" }, [
+                                _c("h5", [
+                                  _vm._v(
+                                    "\n                                        " +
+                                      _vm._s(
+                                        comment.user.first_name +
+                                          " " +
+                                          comment.user.last_name
+                                      ) +
+                                      "\n                                    "
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "col-12" }, [
+                                _c("p", [
+                                  _vm._v(
+                                    "\n                                        " +
+                                      _vm._s(comment.comment) +
+                                      "\n                                    "
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c("div", { staticClass: "row col-12" }, [
+                                _c("div", { staticClass: "container" }, [
+                                  _c(
+                                    "button",
+                                    {
+                                      staticClass: "btn btn-sm btn-link",
+                                      attrs: {
+                                        type: "button",
+                                        "data-toggle": "collapse",
+                                        "data-target":
+                                          "#subCommentSection" + comment.id,
+                                        "aria-expanded": "false",
+                                        "aria-controls":
+                                          "subCommentSection" + comment.id
+                                      }
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                            Reply\n                                        "
+                                      )
+                                    ]
+                                  )
+                                ])
+                              ]),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                {
+                                  staticClass: "row collapse ",
+                                  attrs: {
+                                    "data-collapse": "#accordionCommentParent",
+                                    id: "subCommentSection" + comment.id
+                                  }
+                                },
+                                [
+                                  _c("div", { staticClass: "container" }, [
+                                    _c(
+                                      "div",
+                                      { staticClass: "mb-1" },
+                                      [
+                                        _c("CustomForm", [
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass: "form-inline",
+                                              attrs: { slot: "formField" },
+                                              slot: "formField"
+                                            },
+                                            [
+                                              _c(
+                                                "div",
+                                                {
+                                                  staticClass: "form-group mb-2"
+                                                },
+                                                [
+                                                  _c("input", {
+                                                    directives: [
+                                                      {
+                                                        name: "model",
+                                                        rawName: "v-model",
+                                                        value:
+                                                          _vm.sub_comment
+                                                            .sub_comment,
+                                                        expression:
+                                                          "sub_comment.sub_comment"
+                                                      }
+                                                    ],
+                                                    staticClass: "form-control",
+                                                    attrs: { type: "text" },
+                                                    domProps: {
+                                                      value:
+                                                        _vm.sub_comment
+                                                          .sub_comment
+                                                    },
+                                                    on: {
+                                                      input: function($event) {
+                                                        if (
+                                                          $event.target
+                                                            .composing
+                                                        ) {
+                                                          return
+                                                        }
+                                                        _vm.$set(
+                                                          _vm.sub_comment,
+                                                          "sub_comment",
+                                                          $event.target.value
+                                                        )
+                                                      }
+                                                    }
+                                                  })
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "form-control btn btn-sm btn-success mb-2 mx-2",
+                                                  attrs: { type: "button" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.preventDefault()
+                                                      return _vm.handleSubmitSubComment(
+                                                        comment.id
+                                                      )
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\n                                                        Send reply\n                                                    "
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ],
+                                      1
+                                    )
+                                  ])
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _vm._l(comment.sub_comments, function(
+                                sub_comment
+                              ) {
+                                return _c(
+                                  "div",
+                                  {
+                                    key: sub_comment.id,
+                                    staticClass: "container card card-body"
+                                  },
+                                  [
+                                    _c("div", { staticClass: "row" }, [
+                                      _c("div", { staticClass: "col-12" }, [
+                                        _c("h5", [
+                                          _vm._v(
+                                            "\n                                                " +
+                                              _vm._s(
+                                                sub_comment.user.first_name +
+                                                  " " +
+                                                  sub_comment.user.last_name
+                                              ) +
+                                              "\n                                            "
+                                          )
+                                        ])
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("div", { staticClass: "col-12" }, [
+                                        _c("p", [
+                                          _vm._v(
+                                            "\n                                                " +
+                                              _vm._s(sub_comment.sub_comment) +
+                                              "\n                                            "
+                                          )
+                                        ])
+                                      ])
+                                    ])
+                                  ]
                                 )
-                              ])
-                            ]),
-                            _vm._v(" "),
-                            _c("div", { staticClass: "col" }, [
-                              _c("small", [
-                                _vm._v(
-                                  "\n                                        " +
-                                    _vm._s(comment.comment) +
-                                    "\n                                    "
-                                )
-                              ])
-                            ])
-                          ])
+                              })
+                            ],
+                            2
+                          )
                         ]
                       )
-                    })
+                    }),
+                    _vm._v(" "),
+                    _c("small", { staticClass: "text-muted" })
                   ],
                   2
-                ),
-                _vm._v(" "),
-                _c("small", { staticClass: "text-muted" })
+                )
               ]
             )
           ])
@@ -39374,13 +39634,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      [_c("Navbar"), _vm._v(" "), _c("Post"), _vm._v(" "), _c("Login")],
-      1
-    )
-  ])
+  return _c("div", [_c("Navbar"), _vm._v(" "), _c("Post")], 1)
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -56175,12 +56429,13 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/*! no exports provided */
+/*! exports provided: bus */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App */ "./resources/js/App.vue");
+/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "bus", function() { return bus; });
+/* harmony import */ var _App__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./App */ "./resources/js/App.vue");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var jquery__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
@@ -56208,8 +56463,9 @@ var Bootstrap = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap
 global.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.use(vue_resource__WEBPACK_IMPORTED_MODULE_6__["default"]);
+var bus = new vue__WEBPACK_IMPORTED_MODULE_4___default.a();
 vue__WEBPACK_IMPORTED_MODULE_4___default.a.http.options.root = 'http://localhost:8000/api/v1/';
-axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = 'http://localhost:8000/api/v1/';
+axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.baseURL = 'http://localhost:8001/api/v1/';
 axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.common['Authorization'] = "bearer ".concat(localStorage.token ? localStorage.token : '');
 axios__WEBPACK_IMPORTED_MODULE_1___default.a.defaults.headers.post['Content-Type'] = 'application/json';
 var router = new vue_router__WEBPACK_IMPORTED_MODULE_5__["default"]({
@@ -56702,12 +56958,16 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _views_homepage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./views/homepage */ "./resources/js/views/homepage.vue");
+/* harmony import */ var _components_navbar_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/navbar.vue */ "./resources/js/components/navbar.vue");
+/* harmony import */ var _views_postview_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/postview.vue */ "./resources/js/views/postview.vue");
+/* harmony import */ var _views_homepage_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/homepage.vue */ "./resources/js/views/homepage.vue");
+
+
 
 /* harmony default export */ __webpack_exports__["default"] = ([{
-  path: '/home',
+  path: '/',
   name: 'home',
-  component: _views_homepage__WEBPACK_IMPORTED_MODULE_0__["default"]
+  component: _views_homepage_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 }]);
 
 /***/ }),

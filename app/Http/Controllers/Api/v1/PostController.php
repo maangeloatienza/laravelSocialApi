@@ -51,7 +51,8 @@ class PostController extends Controller
                 }
             )
         )
-        ->paginate());
+        ->orderBy('id','DESC')
+        ->paginate(5));
     }
 
     public function show(Post $post):PostResource {

@@ -17,7 +17,7 @@
                                     <router-link class="nav-link text-white" to="/" >Home</router-link>
                                 </li>
                                 <li class="nav-item">
-                                    <router-link class="nav-link text-white" to="">Profile</router-link>
+                                    <router-link class="nav-link text-white" to="/post">Profile</router-link>
                                 </li>
                                 <li v-if='isLoggedIn' class="nav-item">
                                     <button
@@ -30,7 +30,10 @@
                                 </li>
 
                                 <li v-else class="nav-item">
-                                    <button class='nav-link btn btn-link text-white' data-toggle="modal" data-target="#authenticationModal">
+                                    <button
+                                        type='button'
+                                        class='nav-link btn btn-link text-white' data-toggle="modal"
+                                        data-target="#authenticationModal">
                                         Login
                                     </button>
                                 </li>
