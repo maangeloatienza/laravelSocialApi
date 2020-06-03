@@ -1,3 +1,5 @@
+##This is a sample social media using laravel and vue js
+Don't mind the vuejs design concept, since it was just a testing of integrating vuejs to laravel app.
 ``` ## Create a .env file then save the following
 
 - APP_NAME=Laravel
