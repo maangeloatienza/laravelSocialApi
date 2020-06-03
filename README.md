@@ -1,4 +1,4 @@
-## Create a .env file then save the following
+``` ## Create a .env file then save the following
 
 - APP_NAME=Laravel
 - APP_ENV=local
@@ -46,3 +46,4 @@
 
 - MIX_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
 - MIX_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+```
